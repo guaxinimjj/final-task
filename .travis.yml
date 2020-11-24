@@ -1,0 +1,12 @@
+language: python
+python: "3.9"
+install:
+  - pip install -e .[ci]
+script: make ci
+
+notifications:
+  email:
+    recipients:
+      - vitaliy.musubi@gmail.com
+    on_success: never
+    on_failure: always
