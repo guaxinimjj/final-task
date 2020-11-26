@@ -6,7 +6,7 @@ WORKDIR /department-app
 
 COPY department_app ./department_app
 COPY scripts ./scripts
-COPY setup.py run.py ./
+COPY setup.py run.py alembic.ini ./
 
 RUN pip install -e .
 
