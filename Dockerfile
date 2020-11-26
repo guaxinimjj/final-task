@@ -10,4 +10,7 @@ COPY setup.py run.py ./
 
 RUN pip install -e .
 
+RUN chmod +x scripts/apply-migrations.sh
+ENTRYPOINT ["./scripts/apply-migrations.sh"]
+
 CMD ["gunicorn", "run:app"]
