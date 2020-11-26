@@ -6,8 +6,11 @@ WORKDIR /department-app
 
 COPY department_app ./department_app
 COPY scripts ./scripts
-COPY setup.py run.py ./
+COPY setup.py run.py alembic.ini ./
 
 RUN pip install -e .
+
+RUN chmod +x scripts/apply-migrations.sh
+ENTRYPOINT ["./scripts/apply-migrations.sh"]
 
 CMD ["gunicorn", "run:app"]

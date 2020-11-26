@@ -49,12 +49,37 @@
       <th scope="row">1</th>
       <td>Mark</td>
       <td>5000</td>
-      <td><button type="button" class="btn btn-warning btn-sm">Edit</button></td>
+      <td><a class="btn btn-link" href="employee.html" role="button">Link to Edit</a></td>
       <td><button type="button" class="btn btn-danger btn-sm">Delete</button></td>
     </tr>
   </tbody>
 </table>
-<button type="button" class="btn btn-success">Add Employee</button>
+    <!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add Employee</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h3 class="modal-title">Add Employee</h3>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control mt-3" placeholder="Employee's name" >
+          <input type="date" class="form-control mt-3" id="date-birth" name="date" placeholder="Дата" required>
+          <input type="text" class="form-control mt-3" placeholder="Salary" >
+          <button class="btn btn-outline-secondary mt-3" type="button">Add</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div>
 
 
