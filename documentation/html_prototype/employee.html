@@ -20,15 +20,41 @@
 </nav>
 <div class="container-sm mt-3 mb-3">
     <div class="row">
-        <div class="col-3"><p>Related department: dname</p></div>
-        <div class="col-3"><p>Employee name: ename</p></div>
-        <div class="col-3"> <p>Date of birth: date</p></div>
-        <div class="col-3"> <p>Salary: salary</p></div>
+        <div class="col-3"><input type="text" class="form-control" placeholder="department name" ></div>
+        <div class="col-3"><input type="text" class="form-control" placeholder="Employee name"></div>
+        <div class="col-3"><input type="date" class="form-control" id="date-birth" name="date" placeholder="Дата" ></div>
+        <div class="col-3"><input type="text" class="form-control" placeholder="Salary" ></div>
     </div>
 </div>
 <div class="container mt-3 mb-3">
     <div class="row">
-        <div class="col-1"><button type="button" class="btn btn-warning w-20">Edit</button></div>
+         <!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Edit</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h3 class="modal-title">Edit Employee</h3>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control mt-3" placeholder="department name" >
+        <input type="text" class="form-control mt-3" placeholder="Employee name">
+        <input type="date" class="form-control mt-3" id="date-birth" name="date" placeholder="Дата" >
+        <input type="text" class="form-control mt-3" placeholder="Salary">
+          <button class="btn btn-outline-secondary mt-3" type="button">Save</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
         <div class="col-1"><button type="button" class="btn btn-danger w-20">Delete</button></div>
     </div>
 </div>

@@ -41,6 +41,33 @@
   </tbody>
 </table>
 
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add new Department</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade " role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+<div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Department</h5>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+    <input type="text" class="form-control mt-3" placeholder="Department's name" >
+      <div class="input-group-append">
+    <button class="btn btn-outline-secondary mt-3" type="button">Add</button>
+  </div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div>
 
 
@@ -50,5 +77,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

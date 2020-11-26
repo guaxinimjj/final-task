@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    container_name: app
+    build: .
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+    - ./:/department-app
+    environment:
+      - FLASK_APP=department_app
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_ENV=development
+      - SECRET_KEY=development
+      - SQLALCHEMY_DATABASE_URI=postgres+psycopg2://docker:docker@db/docker
+    command: flask run
+
+  db:
+    container_name: db
+    image: postgres:13.0-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=docker
