@@ -1,4 +1,5 @@
 from flask import Flask
+
 from department_app.views import departments
 from department_app.routes import setup_routes
 

@@ -32,7 +32,7 @@ class DepartmentsResource(Resource):
 
     def post(self):
         """Create new department."""
-        name = request.json["name"]  # JS: POST {'name': 'IT'} /api/v1/departments
+        name = request.json["name"]
         department = Department(name=name)
         db.session.add(department)
         db.session.commit()

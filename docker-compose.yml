@@ -12,6 +12,7 @@ services:
       - db
     volumes:
     - .:/department-app
+
     environment:
       - FLASK_APP=department_app
       - FLASK_RUN_HOST=0.0.0.0
