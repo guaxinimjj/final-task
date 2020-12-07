@@ -21,33 +21,36 @@ class EmployeesResource(Resource):
         employees = query.all()
         return [
             {
-                'id': employee.id,
-                'name': employee.name,
-                'salary': str(employee.salary),
-                'date_birth': employee.date_birth.isoformat(),
-                'department_name': employee.department_name,
-            } for employee in employees
+                "id": employee.id,
+                "name": employee.name,
+                "salary": str(employee.salary),
+                "date_birth": employee.date_birth.isoformat(),
+                "department_name": employee.department_name,
+            }
+            for employee in employees
         ], 200
 
     def post(self):
         """Create new employee."""
-        name = request.json['name']
+        name = request.json["name"]
         date = request.json["date"]
         salary = request.json["salary"]
         department_id = request.json["depart_name"]
 
-        employee = Employee(name=name, department_id=department_id, date_birth=date, salary=salary)
+        employee = Employee(
+            name=name, department_id=department_id, date_birth=date, salary=salary
+        )
         db.session.add(employee)
         db.session.commit()
 
         department = get_department_by_id(department_id)
 
         result = {
-            'id': employee.id,
-            'name': employee.name,
-            'salary': str(employee.salary),
-            'date_birth': employee.date_birth,
-            'department_name': department.name,
+            "id": employee.id,
+            "name": employee.name,
+            "salary": str(employee.salary),
+            "date_birth": employee.date_birth,
+            "department_name": department.name,
         }
         return result, 201
 
@@ -59,11 +62,11 @@ class EmployeeResource(Resource):
         """Get employee by id.."""
         employee = get_employee_by_id(employee_id)
         result = {
-            'id': employee.id,
-            'name': employee.name,
-            'salary': str(employee.salary),
-            'date_birth': employee.date_birth,
-            'department_name': employee.department_name,
+            "id": employee.id,
+            "name": employee.name,
+            "salary": str(employee.salary),
+            "date_birth": employee.date_birth,
+            "department_name": employee.department_name,
         }
         return result
 

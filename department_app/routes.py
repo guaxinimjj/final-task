@@ -24,13 +24,11 @@ def setup_routes(app):
     app.add_url_rule(
         "/employees/search", "employees-search", employees_search, methods=["GET", "POST"]
     )
-    app.add_url_rule(
-        "/employee/<int:id>", "employee", employee, methods=["GET", "POST"]
-    )
+    app.add_url_rule("/employee/<int:id>", "employee", employee, methods=["GET", "POST"])
 
     # API
     api = Api(app)
-    api.add_resource(DepartmentsResource, '/api/v1/departments')
-    api.add_resource(DepartmentResource, '/api/v1/departments/<int:department_id>')
-    api.add_resource(EmployeesResource, '/api/v1/employees')
-    api.add_resource(EmployeeResource,  '/api/v1/employees/<int:employee_id>')
+    api.add_resource(DepartmentsResource, "/api/v1/departments")
+    api.add_resource(DepartmentResource, "/api/v1/departments/<int:department_id>")
+    api.add_resource(EmployeesResource, "/api/v1/employees")
+    api.add_resource(EmployeeResource, "/api/v1/employees/<int:employee_id>")
