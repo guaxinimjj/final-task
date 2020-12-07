@@ -9,3 +9,5 @@ test:
 
 ci:
 	make black
+	make test
+	coveralls
