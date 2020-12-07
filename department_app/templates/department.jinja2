@@ -1,0 +1,91 @@
+{% extends 'base.jinja2' %}
+{% block title %}Department page{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2> Department name: {{ department.name }} </h2>
+        <!-- Trigger Rename Department -->
+        <button type="button" class="btn btn-info btn-md mb-3" data-toggle="modal" data-target="#myModal">Rename
+        </button>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form method="post" action='/department/{{ department['id'] }}'>
+                                <textarea class="form-control mt-3" placeholder="name"
+                                          name="name">{{ department['name'] }}</textarea>
+                            <button class="btn btn-outline-secondary mt-3" type="submit">Save Changes</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-danger btn-sx btn-container-sx mb-3" type="submit"
+                onclick='fetch("/department/{{ department['id'] }}", {method: "DELETE"})'>Delete Department
+        </button>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Employee name</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for employees in employees %}
+                <tr>
+                    <th scope="row">{{ employees['id'] }}</th>
+                    <td>{{ employees['name'] }}</td>
+                    <td>{{ employees['salary'] }}</td>
+                    <td><a class="btn btn-link" href="/employee/{{ employees['id'] }}" role="button">Link to Edit</a>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
+                                onclick='fetch("/employee/{{ employees["id"] }}", {method: "DELETE"})'>Delete
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!-- Trigger Edd Employee -->
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#AddModal">Add Employee
+        </button>
+        <!-- Modal -->
+        <div id="AddModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form method="post" action='/employees'>
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add Employee</h3>
+                        </div>
+                        <div class="modal-body">
+                            <select name="depart_name">
+                                <option value="{{ department['id'] }}">{{ department['name'] }}</option>
+                            </select>
+                            <input type="text" class="form-control mt-3" name="name" id="name"
+                                   placeholder="Employee name">
+                            <input type="date" class="form-control mt-3" id="date" name="date"
+                                   placeholder="Date of Birth" required>
+                            <input type="text" class="form-control mt-3" name="salary" id="salary" placeholder="Salary">
+                            <button class="btn btn-outline-secondary mt-3" type="submit">Add</button>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

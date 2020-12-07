@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from department_app.models import db
 
 
 class Department(db.Model):
@@ -8,6 +6,9 @@ class Department(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return "<Department %r>" % self.id
 
 
 class Employee(db.Model):
@@ -18,3 +19,6 @@ class Employee(db.Model):
     name = db.Column(db.String(60), nullable=False)
     date_birth = db.Column(db.Date, nullable=False)
     salary = db.Column(db.DECIMAL, nullable=False)
+
+    def __repr__(self):
+        return "<Employee %r>" % self.id

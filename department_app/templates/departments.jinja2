@@ -1,17 +1,90 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Department</title>
-</head>
-<body>
-<h1>Department page</h1>
-{% for department in departments %}
-    <p>{{ department['id'] }}</p>
-    <p>{{ department['name'] }}</p>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.jinja2' %}
+{% block title %}Departments page{% endblock %}
+{% block content %}
+    <div class="container-sm ">
+        <h2>Departments List</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Department</th>
+                <th scope="col">Rename</th>
+                <th scope="col">Average Salary</th>
+                <th scope="col"> About</th>
+                <th scope="col"> Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for department in departments %}
+                <tr>
+                    <th scope="row">{{ department['id'] }}</th>
+                    <td>{{ department['name'] }}</td>
+                    <td>      <!-- Trigger Rename Department -->
+                        <button type="button" class="btn btn-info btn-md mb-3" data-toggle="modal"
+                                data-target="#myModal">Rename
+                        </button>
+                        <!-- Modal -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form method="post" action='/department/{{ department['id'] }}'>
+                                <textarea class="form-control mt-3" placeholder="name"
+                                          name="name">{{ department['name'] }}</textarea>
+                                            <button class="btn btn-outline-secondary mt-3" type="submit">Save Changes
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ '{0:0.2f}'.format(department['average_salary'] | float) }}  </td>
+                    <td><a class="btn btn-link" href="/department/{{ department['id'] }}" role="button">Link to
+                        Department</a></td>
+                    <td>
+                        <button class="btn btn-danger btn-sx btn-container-sx mb-3" type="submit"
+                                onclick='fetch("/department/{{department['id']}}", {method: "DELETE"})'>Delete
+                            Department
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add new
+            Department
+        </button>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade " role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Department</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <input type="text" name="name" id="name" class="form-control mt-3"
+                                       placeholder="Department's name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary mt-3" type="submit">Add</button>
+                        </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+{% endblock %}

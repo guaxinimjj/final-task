@@ -1,0 +1,51 @@
+{% extends 'base.jinja2' %}
+{% block title %}Employee page{% endblock %}
+{% block content %}
+    <div class="container-sm mt-3 mb-3">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h2>{{ employee['name'] }}</h2>
+                <p><strong>Date of Birth: {{ employee['date_birth'] }}</strong></p>
+                <p><strong>Department: {{ employee['department_name'] }}</strong></p>
+                <p><strong>Salary: {{ employee['salary'] }}</strong></p>
+            </div>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-md mb-3" data-toggle="modal" data-target="#myModal">Edit
+            </button>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Edit Employee</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action='/employee/{{ employee['id'] }}'>
+                                <select name="depart_name">
+                                    {% for department in departments %}
+                                        <option value="{{ department['id'] }}">{{ department['name'] }}</option>
+                                    {% endfor %}
+                                </select>
+                                <textarea class="form-control mt-3" placeholder="name"
+                                          name="name">{{ employee['name'] }}</textarea>
+                                <textarea class="form-control mt-3" placeholder="date of birth"
+                                          name="date_birth">{{ employee['date_birth'] }}</textarea>
+                                <textarea class="form-control mt-3" placeholder="salary"
+                                          name="salary">{{ employee['salary'] }}</textarea>
+                                <button class="btn btn-outline-secondary mt-3" type="submit">Save Changes</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
+                    onclick='fetch("/employee/{{ employee["id"] }}", {method: "DELETE"})'>Delete
+            </button>
+        </div>
+    </div>
+{% endblock %}

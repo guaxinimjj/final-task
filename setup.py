@@ -10,6 +10,7 @@ setup(
         "alembic==1.4.3",
         "flask==1.1.2",
         "flask-sqlalchemy==2.4.4",
+        "flask-restful==0.3.8",
         "gunicorn==20.0.4",
         "psycopg2==2.8.6",
         "python-dotenv==0.15.0",
