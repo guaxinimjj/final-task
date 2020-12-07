@@ -1,6 +1,8 @@
 from flask import Flask
+
 from department_app.views import departments
 from department_app.routes import setup_routes
+
 
 def create_app():
     """Create and configure an instance of the Flask application."""

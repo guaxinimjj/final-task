@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for
-from sqlalchemy.sql import func, or_, and_
+from sqlalchemy.sql import func
 from department_app.models.departments import Department, db, Employee
+from department_app.models.utils import get_search_query
 
 
 def index():
@@ -88,38 +89,6 @@ def employees():
     )
 
 
-def get_search_query(args):
-    if not any(args.values()):
-        # workaround for filter method when `true` is not supported
-        return Employee.id is not None
-
-    name = args.get("name")
-    date_from = args.get("date_from")
-    date_by = args.get("date_by")
-
-    query = None
-    if date_from and date_by:
-        query = and_(
-            Employee.date_birth >= date_from,
-            Employee.date_birth <= date_by,
-        )
-    elif date_from:
-        query = Employee.date_birth >= date_from
-    elif date_by:
-        query = Employee.date_birth <= date_by
-
-    if name:
-        name_query = Employee.name.ilike(f"%{name}%")
-        if query is not None:
-            query = or_(
-                query,
-                name_query,
-            )
-        else:
-            query = name_query
-    return query
-
-
 def employees_search():
     departments = Department.query.all()
     where = get_search_query(request.args)
@@ -146,8 +115,4 @@ def employee(id):
             return redirect(url_for("employee", id=id))
         except:
             return "Something go wrong!"
-    elif request.method == "DELETE":
-        db.session.delete(employee)
-        db.session.commit()
-
     return render_template("employee.jinja2", employee=employee, departments=departments)
