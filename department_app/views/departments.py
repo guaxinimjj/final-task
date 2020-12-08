@@ -5,6 +5,8 @@ from department_app.models.utils import get_search_query
 
 
 def index():
+    """Index page, display a list departments, and average salary. Create new department."""
+
     departments = (
         db.session.query(Department)
         .outerjoin(Employee, Department.id == Employee.department_id)
@@ -28,14 +30,15 @@ def index():
         return render_template("departments.jinja2", departments=departments)
 
 
-def department(id):
-    department = Department.query.get(id)
-    employees = Employee.query.filter_by(department_id=id)
+def department(department_id):
+    """Department page, display a list employees. Update or delete department."""
+    department = Department.query.get(department_id)
+    employees = Employee.query.filter_by(department_id=department_id)
     if request.method == "POST":
         department.name = request.form["name"]
         try:
             db.session.commit()
-            return redirect(url_for("department", id=id))
+            return redirect(url_for("department", id=department_id))
         except:
             return "Something go wrong!"
     elif request.method == "DELETE":
@@ -47,6 +50,7 @@ def department(id):
 
 
 def get_employee_query(where=None):
+    """Query for employees page."""
     query = (
         db.session.query(Employee)
         .outerjoin(Department, Department.id == Employee.department_id)
@@ -66,6 +70,7 @@ def get_employee_query(where=None):
 
 
 def employees():
+    """Employees page, show all employees. Add new employee."""
     department = Department.query.all()
     query = get_employee_query()
     employees = query.all()
@@ -90,6 +95,7 @@ def employees():
 
 
 def employees_search():
+    """Employees search."""
     departments = Department.query.all()
     where = get_search_query(request.args)
     query = get_employee_query(where)
@@ -99,20 +105,21 @@ def employees_search():
     )
 
 
-def employee(id):
+def employee(employee_id):
+    """Employee page. Update or delete employee."""
     departments = Department.query.all()
-    where = Employee.id == id
+    where = Employee.id == employee_id
     query = get_employee_query(where)
     employee = query.one()
 
     if request.method == "POST":
-        employee.name = request.form["name"]
-        employee.date_birth = request.form["date_birth"]
-        employee.salary = request.form["salary"]
-        employee.department_id = request.form["depart_name"]
+        employee.name = request.json["name"]
+        employee.date_birth = request.json["date_birth"]
+        employee.salary = request.json["salary"]
+        employee.department_id = request.json["depart_name"]
         try:
             db.session.commit()
-            return redirect(url_for("employee", id=id))
+            return redirect(url_for("employee", id=employee_id))
         except:
             return "Something go wrong!"
     return render_template("employee.jinja2", employee=employee, departments=departments)

@@ -12,6 +12,7 @@ from department_app.views.departments import (
 
 
 def setup_routes(app):
+    """Routes for Templates and API."""
     # Templates
     app.add_url_rule("/", "index", index, methods=["GET", "POST"])
     app.add_url_rule(

@@ -71,14 +71,12 @@
               `date_by=${params['date_by'] || ''}`,
             ].join('&');
             let url = `/api/v1/employees?${queryString}`;
-
             fetch(url)
                 .then((response) => {
                     return response.json();
                 })
                 .then((employees) => {
                     let table = document.getElementById("table");
-
                     let header = table.insertRow(0);
                     header.innerHTML = `
                     <th scope="col">#</th>
@@ -88,7 +86,6 @@
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                     `;
-
                     for (let i = 0; i < employees.length; i++) {
                         let employee = employees[i];
                         let row = table.insertRow(i + 1);
@@ -109,6 +106,7 @@
                     }
                 });
         }
+
         function deleteEmployee(employeeId){
             fetch(`/api/v1/employees/${employeeId}`, {method: "DELETE"});
             document.getElementById(employeeId).remove();
@@ -122,9 +120,9 @@
             }
             let table = document.getElementById('table');
             table.innerHTML = "";
-
             displayEmployees(params);
         }
+
 
         displayEmployees({});
     </script>
