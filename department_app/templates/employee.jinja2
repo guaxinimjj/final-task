@@ -44,7 +44,7 @@
                 </div>
             </div>
             <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
-                                        onclick="deleteEmployee(${employee['id']})">Delete
+                                        onclick="deleteEmployee({{ employee['id'] }})">Delete
             </button>
         </div>
     </div>
@@ -52,9 +52,9 @@
 {% block script %}
     <script>
 
+
         function deleteEmployee(employeeId){
             fetch(`/api/v1/employees/${employeeId}`, {method: "DELETE"});
-            document.getElementById(employeeId).remove();
         }
 
     </script>
