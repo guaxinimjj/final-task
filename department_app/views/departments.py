@@ -101,4 +101,3 @@ def employee(id):
 
     employee = query.one()
     return render_template("employee.jinja2", employee=employee, departments=departments)
-
