@@ -4,7 +4,7 @@ from flask_restful import Resource
 from department_app.models import db
 from department_app.models.departments import Employee
 from department_app.models.utils import (
-    get_department_by_id,
+    set_department_by_id,
     get_employee_query,
     get_employee_by_id,
     get_search_query,
@@ -43,7 +43,7 @@ class EmployeesResource(Resource):
         db.session.add(employee)
         db.session.commit()
 
-        department = get_department_by_id(department_id)
+        department = set_department_by_id(department_id)
 
         result = {
             "id": employee.id,
@@ -68,13 +68,17 @@ class EmployeeResource(Resource):
             "date_birth": employee.date_birth,
             "department_name": employee.department_name,
         }
-        return result
+        return result, 200
 
     def put(self, employee_id):
         """Update employee parameter(s) by id."""
         # request.json
         employee = get_employee_by_id(employee_id)
-        employee.todo
+        employee.name = request.json["name"]
+        employee.date_birth = request.json["date_birth"]
+        employee.salary = request.json["salary"]
+        employee.department_id = request.json["depart_name"]
+        db.session.commit()
         return {}, 200
 
     def delete(self, employee_id):

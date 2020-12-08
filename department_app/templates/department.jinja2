@@ -48,9 +48,9 @@
                     <td><a class="btn btn-link" href="/employee/{{ employees['id'] }}" role="button">Link to Edit</a>
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
-                                onclick='fetch("/employee/{{ employees["id"] }}", {method: "DELETE"})'>Delete
-                        </button>
+                         <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
+                                        onclick="deleteEmployee({{ employees['id'] }})">Delete
+                                </button>
                     </td>
                 </tr>
             {% endfor %}
@@ -88,4 +88,14 @@
         </div>
     </div>
 
+{% endblock %}
+{% block script %}
+    <script>
+
+
+        function deleteEmployee(employeeId){
+            fetch(`/api/v1/employees/${employeeId}`, {method: "DELETE"});
+        }
+
+    </script>
 {% endblock %}

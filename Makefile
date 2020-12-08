@@ -9,5 +9,6 @@ test:
 
 ci:
 	make black
+	make lint
 	make test
 	coveralls

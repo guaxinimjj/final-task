@@ -2,6 +2,8 @@ from department_app.models import db
 
 
 class Department(db.Model):
+    """Create Department table"""
+
     __tablename__ = "departments"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -12,6 +14,8 @@ class Department(db.Model):
 
 
 class Employee(db.Model):
+    """Create Employee table"""
+
     __tablename__ = "employees"
 
     id = db.Column(db.Integer, primary_key=True)

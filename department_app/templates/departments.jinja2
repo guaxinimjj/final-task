@@ -3,88 +3,109 @@
 {% block content %}
     <div class="container-sm ">
         <h2>Departments List</h2>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Department</th>
-                <th scope="col">Rename</th>
-                <th scope="col">Average Salary</th>
-                <th scope="col"> About</th>
-                <th scope="col"> Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for department in departments %}
-                <tr>
-                    <th scope="row">{{ department['id'] }}</th>
-                    <td>{{ department['name'] }}</td>
-                    <td>      <!-- Trigger Rename Department -->
-                        <button type="button" class="btn btn-info btn-md mb-3" data-toggle="modal"
-                                data-target="#myModal">Rename
-                        </button>
-                        <!-- Modal -->
-                        <div id="myModal" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <form method="post" action='/department/{{ department['id'] }}'>
-                                <textarea class="form-control mt-3" placeholder="name"
-                                          name="name">{{ department['name'] }}</textarea>
-                                            <button class="btn btn-outline-secondary mt-3" type="submit">Save Changes
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>{{ '{0:0.2f}'.format(department['average_salary'] | float) }}  </td>
-                    <td><a class="btn btn-link" href="/department/{{ department['id'] }}" role="button">Link to
-                        Department</a></td>
-                    <td>
-                        <button class="btn btn-danger btn-sx btn-container-sx mb-3" type="submit"
-                                onclick='fetch("/department/{{department['id']}}", {method: "DELETE"})'>Delete
-                            Department
-                        </button>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
+
+
         </table>
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add new
             Department
         </button>
         <!-- Modal -->
-        <div id="myModal" class="modal fade " role="dialog">
+        <div id="myModal" class="modal fade mb-3" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <form method="post">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add Department</h5>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Department</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <input type="text" name="nameDepartment" id="nameDepartment" class="form-control mt-3"
+                                   placeholder="Department's name">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary mt-3" type="submit" id="buttonAdd">Add</button>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <div class="input-group mb-3">
-                                <input type="text" name="name" id="name" class="form-control mt-3"
-                                       placeholder="Department's name">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary mt-3" type="submit">Add</button>
-                        </div>
-                        </div>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
+
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+
+        <table class="table mt-3" id="tableDepartments">
     </div>
 {% endblock %}
+
+{% block script %}
+    <script>
+
+        const inputNameOfDep = document.getElementById('nameDepartment');
+        const addButton = document.getElementById('buttonAdd');
+
+
+        function displayDepartments() {
+            let url = `/api/v1/departments`;
+            fetch(url)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((departments) => {
+                    let table = document.getElementById("tableDepartments");
+                    let header = table.insertRow(0);
+                    header.innerHTML = `
+                    <th scope="col">id</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Average Salary</th>
+                    <th scope="col"> About</th>
+                    <th scope="col"> Delete</th>
+                    `;
+                    for (let i = 0; i < departments.length; i++) {
+                        let department = departments[i];
+                        let row = table.insertRow(i + 1);
+                        row.id = department['id'];
+                        row.innerHTML = `
+                            <th scope="row">${department['id']}</th>
+                            <td>${department['name']}</td>
+                            <td>${parseFloat(department['average_salary']).toFixed(2)}</td>
+                            <td><a class="btn btn-link" href="/department/${department['id']}" role="button">Link to Edit</a>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
+                                        onclick="deleteDepartment(${department['id']})">Delete
+                                </button>
+                            </td>
+                        `;
+                    }
+                });
+        }
+
+        addButton.addEventListener('click', () => {
+            console.log(inputNameOfDep.value)
+            fetch(`/api/v1/departments`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: inputNameOfDep.value,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+
+            })
+                .then((response) => response.json())
+                .then((json) => console.log(json))
+
+        })
+
+        function deleteDepartment(departmentId) {
+            fetch(`/api/v1/departments/${departmentId}`, {method: "DELETE"});
+            document.getElementById(departmentId).remove();
+        }
+
+        displayDepartments({});
+    </script>
+{% endblock %}
+
+

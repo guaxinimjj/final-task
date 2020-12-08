@@ -5,20 +5,34 @@ from department_app.models.departments import Department, Employee
 
 
 def get_departments() -> list:
+    """Query to get all Department."""
     return Department.query.all()
 
 
 def get_department_by_id(department_id):
-    return Department.query.filter(id=department_id).one()
+    """Query to get Department by id."""
+    return Department.query.get(department_id)
 
 
 def get_employee_by_id(employee_id):
+    """Query to get Employee by id."""
     where = Employee.id == employee_id
     query = get_employee_query(where)
     return query.one()
 
 
+def set_department_by_id(department_id):
+    """Query to get Department filter by id."""
+    return Department.query.filter(id=department_id).one()
+
+
+def set_employees_by_id(department_id):
+    """Query to get Employee filter by id."""
+    return Employee.query.filter_by(department_id=department_id)
+
+
 def get_employee_query(where=None):
+    """Query for employees for search."""
     query = (
         db.session.query(Employee)
         .outerjoin(Department, Department.id == Employee.department_id)
@@ -38,6 +52,7 @@ def get_employee_query(where=None):
 
 
 def get_search_query(args):
+    """Get search parameters."""
     if not any(args.values()):
         # workaround for filter method when `true` is not supported
         return Employee.id is not None

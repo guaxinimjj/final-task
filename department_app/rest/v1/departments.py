@@ -4,6 +4,10 @@ from sqlalchemy.sql import func
 
 from department_app.models import db
 from department_app.models.departments import Department, Employee
+from department_app.models.utils import (
+    get_department_by_id,
+    set_employees_by_id,
+)
 
 
 class DepartmentsResource(Resource):
@@ -44,10 +48,12 @@ class DepartmentsResource(Resource):
 
 
 class DepartmentResource(Resource):
+    """Resource for department by id."""
+
     def get(self, department_id):
         """Get department by id."""
-        department = self._get_department(department_id)
-        employees = self._get_employees_by_id(department_id)
+        department = get_department_by_id(department_id)
+        employees = set_employees_by_id(department_id)
         department_obj = {
             "id": department.id,
             "name": department.name,
@@ -64,20 +70,14 @@ class DepartmentResource(Resource):
 
     def put(self, department_id):
         """Update department parameter(s) by id."""
-        department = self._get_department(department_id)
+        department = get_department_by_id(department_id)
         department.name = request.json["name"]
         db.session.commit()
         return {}, 200
 
     def delete(self, department_id):
         """Delete department by id."""
-        department = self._get_department(department_id)
+        department = get_department_by_id(department_id)
         db.session.delete(department)
         db.session.commit()
         return {}, 204
-
-    def _get_department(self, department_id):
-        return Department.query.get(department_id)
-
-    def _get_employees_by_id(self, department_id):
-        return Employee.query.filter_by(department_id=department_id)

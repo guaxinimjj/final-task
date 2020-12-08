@@ -44,8 +44,18 @@
                 </div>
             </div>
             <button class="btn btn-danger btn-md btn-block mb-3" type="submit"
-                    onclick='fetch("/employee/{{ employee["id"] }}", {method: "DELETE"})'>Delete
+                                        onclick="deleteEmployee({{ employee['id'] }})">Delete
             </button>
         </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+
+
+        function deleteEmployee(employeeId){
+            fetch(`/api/v1/employees/${employeeId}`, {method: "DELETE"});
+        }
+
+    </script>
 {% endblock %}
