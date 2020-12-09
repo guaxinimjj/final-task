@@ -9,19 +9,32 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('index') }}">Departments</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
-            </li>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
 
-        </ul>
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('employees') }}">Employees</a>
+                </li>
+
+            </ul>
+        </div>
     </div>
 </nav>
+
 {% block content %}{% endblock %}
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
